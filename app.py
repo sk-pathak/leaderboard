@@ -25,11 +25,16 @@ def process_pull_requests():
 
     while True:
         pull_request_data = fetch_pull_request_data(pull_request_id)
+        length=len(pull_request_data)
         
-        if 'message' in pull_request_data and pull_request_data['message'] == "Not Found":
+        if length == 2:
             break
-
-        if pull_request_data['merged'] and pull_request_data['state'] == "closed":
+        is_merged = False
+        try:
+            is_merged = pull_request_data['merged']
+        except:
+            print("Pull request not found")
+        if is_merged and pull_request_data['state'] == "closed":
             user_login = pull_request_data['user']['login']
             points = 1
             if user_login in all_data:

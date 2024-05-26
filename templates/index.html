@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CODEFORGE Leaderboard</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mainpage.css') }}">
+</head>
+<body>
+    <strong>CodeFroge Leaderboard</strong>
+    <div class="root">
+        <ol class="alternating-colors">
+            {% for username, info in data.items() %}
+                <li>{{ username }}: {{ info['points'] }}</li>
+            {% endfor %}
+        </ol>
+    </div>
+</body>
+</html>

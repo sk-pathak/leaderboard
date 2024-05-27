@@ -1,13 +1,22 @@
 from flask import Flask, render_template, redirect
 import requests
+import os
+import dotenv
+
+dotenv.load_dotenv()
 
 app = Flask(__name__)
+
+GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
 
 pull_request_data=None
 
 def fetch_pull_request_data(pull_request_id):
     url = f"https://api.github.com/repos/OpenLake/GitStartedWithUs/pulls/{pull_request_id}"
-    response = requests.get(url)
+    headers = {
+        'Authorization': f'token {GITHUB_TOKEN}'
+    }
+    response = requests.get(url,headers=headers)
     return response.json()
 
 def update_user_points(user_data, points):

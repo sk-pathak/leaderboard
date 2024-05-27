@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect
 import requests
 import os
+import json
 import dotenv
 
 dotenv.load_dotenv()
@@ -59,17 +60,14 @@ def process_pull_requests():
         pull_request_id += 1
 
     pull_request_data = dict(sorted(all_data.items(), key=lambda item: item[1]['points'], reverse=True))
+    with open('data.json', 'w') as f:
+        json.dump(pull_request_data, f)
     return redirect('/')
-
-
-def getData():
-    global pull_request_data
-    return pull_request_data
-
 
 @app.route('/')
 def index():
-    data=getData()
+    with open('data.json', 'r') as f:
+        data = json.load(f)
     return render_template('index.html', data=data)
 
 if __name__ == '__main__':

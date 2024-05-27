@@ -55,6 +55,7 @@ def index():
     data = process_pull_requests()
     with open('./data.json', 'r') as json_file:
         data = json.load(json_file)
+    print(data,flush=True)
     return render_template('index.html', data=data)
 
 if __name__ == '__main__':

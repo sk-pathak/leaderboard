@@ -1,8 +1,9 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 import requests
-import json
 
 app = Flask(__name__)
+
+pull_request_data=None
 
 def fetch_pull_request_data(pull_request_id):
     url = f"https://api.github.com/repos/OpenLake/GitStartedWithUs/pulls/{pull_request_id}"
@@ -16,12 +17,16 @@ def update_user_points(user_data, points):
         user_data['points'] = points
     return user_data
 
+@app.route('/load_data')
 def process_pull_requests():
     pull_request_id = 1
     all_data = {}
 
+    global pull_request_data
+
     while True:
         pull_request_data = fetch_pull_request_data(pull_request_id)
+        # print(pull_request_data,flush=True)
         length=len(pull_request_data)
         
         if length == 2:
@@ -44,18 +49,18 @@ def process_pull_requests():
         
         pull_request_id += 1
 
-    sorted_data = dict(sorted(all_data.items(), key=lambda item: item[1]['points'], reverse=True))
-    with open('./data.json', 'w') as json_file:
-        json.dump(sorted_data, json_file, indent=4)
+    pull_request_data = dict(sorted(all_data.items(), key=lambda item: item[1]['points'], reverse=True))
+    return redirect('/')
 
-    return sorted_data
+
+def getData():
+    global pull_request_data
+    return pull_request_data
+
 
 @app.route('/')
 def index():
-    data = process_pull_requests()
-    with open('./data.json', 'r') as json_file:
-        data = json.load(json_file)
-    print(data,flush=True)
+    data=getData()
     return render_template('index.html', data=data)
 
 if __name__ == '__main__':

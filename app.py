@@ -36,7 +36,7 @@ def process_pull_requests():
 
     while True:
         pull_request_data = fetch_pull_request_data(pull_request_id)
-        print(pull_request_data,flush=True)
+        # print(pull_request_data,flush=True)
         length=len(pull_request_data)
         
         if length == 2:

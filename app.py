@@ -59,6 +59,10 @@ def process_pull_requests():
         json.dump(pull_request_data, f)
     return redirect('/')
 
+@app.route("/health", methods=["GET"])
+def health():
+    return "Health check successful", 200
+
 @app.route('/')
 def index():
     with open('data.json', 'r') as f:

@@ -10,8 +10,6 @@ app = Flask(__name__)
 
 GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
 
-pull_request_data=None
-
 def fetch_pull_request_data(pull_request_id):
     url = f"https://api.github.com/repos/OpenLake/GitStartedWithUs/pulls/{pull_request_id}"
     headers = {
@@ -32,13 +30,10 @@ def process_pull_requests():
     pull_request_id = 1
     all_data = {}
 
-    global pull_request_data
-
     while True:
         pull_request_data = fetch_pull_request_data(pull_request_id)
-        # print(pull_request_data,flush=True)
         length=len(pull_request_data)
-        
+        print(length,flush=True)
         if length == 2:
             break
         is_merged = False

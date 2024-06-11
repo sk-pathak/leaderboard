@@ -9,4 +9,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run a one-line script
-        run: curl https://leaderboard-iej6.onrender.com/load_data
+        run: curl https://leaderboard-iej6.onrender.com/
